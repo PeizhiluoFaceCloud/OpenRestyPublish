@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>报名表</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.qrcode.min.js"></script>
+    <script src="js/jquery.Jcrop.js"></script>
+    <script src="js/my.js"></script>
+    <link rel="stylesheet" href="css/jquery.Jcrop.css" type="text/css" />
+</head>
+<body>
+<div id="page1">
+    <p id="projectname" hidden="hidden">{{ ProjectName }}</p>
+    <p id="regist_server_addr" hidden="hidden">{{ RegistServerAddr }}</p>
+    <p id="sms_server_addr" hidden="hidden">{{ SMSServerAddr }}</p>
+    <p>
+        <!--
+        <img src="image/project_bg.jpg" alt="项目介绍" style="width:100%;max-width:100%;max-height:100%">
+        -->
+        <img src="{{ ProjectBgPicture }}" alt="项目介绍" style="width:100%;max-width:100%;max-height:100%">
+    </p>
+    <p>
+        <button id="bt_enter_page2">我要报名</button>
+    </p>
+</div>
+<div id="page2" hidden="hidden">
+    <!--必选项-->
+    <p>
+        <label for="name">姓名</label><span style="color:red">*</span>
+        <input id="name" name="name" type="text">
+    </p>
+    <p>
+        <label for="phone">电话</label><span style="color:red">*</span>
+        <input id="phone" name="phone" type="text">
+    </p>
+    <p>
+        <label for="authcode">验证码</label><span style="color:red">*</span>
+        <input id="authcode" name="authcode" type="text">
+    </p>
+    <p>
+        <button id="bt_send_authcode">发送验证码</button>
+    </p>
+    <p>
+        <label for="email">邮箱</label><span style="color:red">*</span>
+        <input id="email" name="email" type="text">
+    </p>
+    <p>
+        <label>人脸照片</label><span style="color:red">*</span>
+        <canvas id="face" width="128" height="128" style="border:1px solid #d3d3d3;">
+    </p>
+    <p>    
+        <button id="bt_open_facedailog">选择照片</button>
+    </p>
+    <!--可选项(根据配置信息自动产生)-->
+    <p>
+        <button id="bt_register">提交</button>
+    </p>
+</div >
+<div id="page3" hidden="hidden">
+    <p id="reg_message"></p>
+    <p id="reg_detail"></p>
+    <div id="qrcodeCanvas" style="width:100%;max-width:100%;max-height:100%"></div>
+</div>
+
+<div id="facedailog" style="border-color:#0000FF; border:2px solid;" hidden="hidden">
+    <input type="file" id="facefile" accept="image/jpeg" onchange="facefile_change()">
+    <button id="bt_apply_facedailog">确认</button><button id="bt_close_facedailog">取消</button><br>
+    <img id="showface" src="image/face_demo.jpg" style="width:100%;max-width:100%;max-height:100%">
+</div>
+
+</body>
+</html>
