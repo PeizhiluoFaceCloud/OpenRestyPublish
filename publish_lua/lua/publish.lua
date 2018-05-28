@@ -114,10 +114,10 @@ function process_msg()
     
     --将项目名字写入模板中进行返回输出
     --方式1:
-    --template.render("index.html", { ProjectName = project_name })
+    --template.render("project.html", { ProjectName = project_name })
     
     --方式2:编译得到一个lua函数  
-    local func = template.compile("index.html")  
+    local func = template.compile("project.html")  
     local content = func({ProjectName=project_name,
                         RegistServerAddr=register_ip..":"..register_port,
                         SMSServerAddr=sms_ip..":"..sms_port,

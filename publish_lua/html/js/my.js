@@ -323,16 +323,67 @@ $(document).ready(function(){
         context.clearRect(0, 0, square, square);  
 
         var image = document.getElementById('showface'); 
+        var widgetSize = jcrop_api.getWidgetSize();
         
         //把坐标转成实际图像的坐标
-        var widgetSize = jcrop_api.getWidgetSize();
-        var scaleX = image.width/widgetSize[0];
-        var scaleY = image.height/widgetSize[1];
-        var cropX = target_face.x * scaleX;
-        var cropY = target_face.y * scaleY;
-        var cropWidth = target_face.w * scaleX;
-        var cropHeight = target_face.h * scaleY;
-        context.drawImage(image, cropX, cropY, cropWidth, cropHeight,0,0,square,square);
+        var aa = image.width/image.height;
+        var bb = widgetSize[0]/widgetSize[1];
+        var rotate90 = 0;   //原图坐标是旋转一下90度
+        if ((aa-1)*(bb-1) < 0)
+        {
+            rotate90 = 1;
+        }
+        if(rotate90 == 0)
+        {
+            //以左上角为坐标原点，
+            //0---------->X
+            //|
+            //|
+            //Y
+            var scaleX = image.width/widgetSize[0];
+            var scaleY = image.height/widgetSize[1];
+            var cropX = target_face.x * scaleX;
+            var cropY = target_face.y * scaleY;
+            var cropWidth = target_face.w * scaleX;
+            var cropHeight = target_face.h * scaleY;  
+            context.drawImage(image, cropX, cropY, cropWidth, cropHeight,0,0,square,square);
+        }
+        else
+        {
+            //以右上角为坐标原点，
+            //Y<------0
+            //        |
+            //        |
+            //        |
+            //        |
+            //        |
+            //        X
+            
+            var scaleX = image.width/widgetSize[1];
+            var scaleY = image.height/widgetSize[0];
+            var cropX = target_face.y * scaleX;
+            var cropY = (widgetSize[0]-(target_face.x+target_face.w)) * scaleY;
+            var cropWidth = target_face.h * scaleX;
+            var cropHeight = target_face.w * scaleY;  
+
+            //选择90度
+            context.save();                         //保存状态
+            context.translate(square,0);       //设置画布上的(0,0)位置，也就是旋转的中心点
+            context.rotate(90*Math.PI/180);
+            context.drawImage(image, cropX, cropY, cropWidth, cropHeight,0,0,square,square);
+            context.restore();//恢复状态
+            /*
+            alert("===rotate===");
+            var info = "image.width="+image.width+" image.height="+image.height + " "
+                +"widgetSize[0]="+widgetSize[0]+" widgetSize[1]="+widgetSize[1] + " "
+                +"target_face.x="+target_face.x+" target_face.y="+target_face.y + " "
+                +"target_face.w="+target_face.w+" target_face.h="+target_face.h + " "
+                +"scaleX="+scaleX+" scaleY="+scaleY + " "
+                +"cropX="+cropX+" cropY="+cropY + " "
+                +"cropWidth="+cropWidth+" cropHeight="+cropHeight;
+            alert(info);
+            */
+        }
 
         //清理现场
         if(jcrop_api != null){
