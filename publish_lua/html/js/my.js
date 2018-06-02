@@ -123,6 +123,7 @@ function facefile_change()
             });
             jcrop_api.setSelect([100,100,200,200]); 
         };
+        $('#showface').attr('style',"width:auto;height:auto;max-width:100%;max-height:100%");
         $('#showface').attr('src',this.result);
     };
 }
@@ -215,6 +216,9 @@ $(document).ready(function(){
             alert("请输入人脸图片");
             return false;
         }
+        //切换到page3
+        $("#page3").show();
+        $("#page2").hide();
 
         //按照注册协议,往服务器发送给POST注册请求
         var xmlhttp = getHttpObj();  
@@ -241,8 +245,8 @@ $(document).ready(function(){
                     jQuery('#qrcodeCanvas').qrcode({text:jsonResponse["DDIP"]["Body"]["QRCode"]});
                 }
                 //切换到page3
-                $("#page3").show();
-                $("#page2").hide();
+                //$("#page3").show();
+                //$("#page2").hide();
             }
         }
         //---组织内容
@@ -288,6 +292,7 @@ $(document).ready(function(){
         $("#page2").hide();
         $("#facedailog").show();
         $('#facefile').val(''); //清空选择的人脸文件
+        $('#showface').attr('style',"width:auto;height:auto;max-width:100%;max-height:100%");
         $('#showface').attr('src',"image/face_demo.jpg");
         target_face = null
     });
@@ -301,6 +306,7 @@ $(document).ready(function(){
             image.onload = null;  
         }
         $('#facefile').val(''); //清空选择的人脸文件
+        $('#showface').attr('style',"width:auto;height:auto;max-width:100%;max-height:100%");
         $('#showface').attr('src',"image/face_demo.jpg");
         //切换页面
         $("#facedailog").hide();
@@ -324,7 +330,16 @@ $(document).ready(function(){
 
         var image = document.getElementById('showface'); 
         var widgetSize = jcrop_api.getWidgetSize();
-        
+        /*
+        var bounds = jcrop_api.getBounds();
+        var scalefactor = jcrop_api.getScaleFactor();
+        var info = "image.width="+image.width+" image.height="+image.height + " "
+            +"widgetSize.w="+widgetSize[0]+" widgetSize.h="+widgetSize[1] + " "
+            +"bounds.w="+bounds[0]+" bounds.h="+bounds[1] + " "
+            +"scalefactor.w="+scalefactor[0]+" scalefactor.h="+scalefactor[1] + " ";
+        alert(info);
+        */
+
         //把坐标转成实际图像的坐标
         var aa = image.width/image.height;
         var bb = widgetSize[0]/widgetSize[1];
@@ -393,6 +408,7 @@ $(document).ready(function(){
             image.onload = null;  
         }
         $('#facefile').val(''); //清空选择的人脸文件
+        $('#showface').attr('style',"width:auto;height:auto;max-width:100%;max-height:100%");
         $('#showface').attr('src',"image/face_demo.jpg");
         //切换页面
         $("#page2").show();
