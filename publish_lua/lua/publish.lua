@@ -115,7 +115,10 @@ function process_msg()
             ngx.log(ngx.ERR, "get project_bg_picture failed : ", project_key,err,redis_ip)
             return send_resp_string("<p>get project_bg_picture failed</p>")
         end
+        print("------------------111")
         print(project_bg_picture)
+        print("------------------222")
+        print(ngx.decode_base64(project_bg_picture))
         writefile("html/"..bg_picture_filename, ngx.decode_base64(project_bg_picture))
 	end
     
