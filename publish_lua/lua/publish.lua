@@ -102,9 +102,14 @@ function process_msg()
     end
     
     --把项目的背景图片从Redis中下载下来
-    local bg_picture_filename = "html/image/"..project_name..".jpg"
+    local project_bg_picture_index = "0"
+    local index , err = red_handler:hget(project_key,"BgPictureIndex")
+    if index then
+        project_bg_picture_index = index
+    end
+    local bg_picture_filename = "html/image/"..project_name.."_"..project_bg_picture_index..".jpg"
     if not file_exists(bg_picture_filename) then
-		local project_bg_picture, err = red_handler:hget(project_key,"BgPicture")
+        local project_bg_picture, err = red_handler:hget(project_key,"BgPicture")
         if not project_bg_picture then
             ngx.log(ngx.ERR, "get project_bg_picture failed : ", project_key,err,redis_ip)
             return send_resp_string("<p>get project_bg_picture failed</p>")
@@ -121,7 +126,7 @@ function process_msg()
     local content = func({ProjectName=project_name,
                         RegistServerAddr=register_ip..":"..register_port,
                         SMSServerAddr=sms_ip..":"..sms_port,
-                        ProjectBgPicture="image/"..project_name..".jpg"})
+                        ProjectBgPicture="image/"..project_name.."_"..project_bg_picture_index..".jpg"})
     send_resp_string(content)
 	return
 end
