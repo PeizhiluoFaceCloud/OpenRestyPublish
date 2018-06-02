@@ -107,14 +107,15 @@ function process_msg()
     if index then
         project_bg_picture_index = index
     end
-    local bg_picture_filename = "html/image/"..project_name.."_"..project_bg_picture_index..".jpg"
+    
+    local bg_picture_filename = "image/"..project_name.."_"..project_bg_picture_index..".jpg"
     if not file_exists(bg_picture_filename) then
         local project_bg_picture, err = red_handler:hget(project_key,"BgPicture")
         if not project_bg_picture then
             ngx.log(ngx.ERR, "get project_bg_picture failed : ", project_key,err,redis_ip)
             return send_resp_string("<p>get project_bg_picture failed</p>")
         end
-        writefile(bg_picture_filename, ngx.decode_base64(project_bg_picture))
+        writefile("html/"..bg_picture_filename, ngx.decode_base64(project_bg_picture))
 	end
     
     --将项目名字写入模板中进行返回输出
@@ -126,7 +127,7 @@ function process_msg()
     local content = func({ProjectName=project_name,
                         RegistServerAddr=register_ip..":"..register_port,
                         SMSServerAddr=sms_ip..":"..sms_port,
-                        ProjectBgPicture="image/"..project_name.."_"..project_bg_picture_index..".jpg"})
+                        ProjectBgPicture=bg_picture_filename})
     send_resp_string(content)
 	return
 end
