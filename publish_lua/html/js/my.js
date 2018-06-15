@@ -30,18 +30,6 @@ function verifyPhone(phone){
     }
     return message
 }
-function verifyEmail(email){  
-    var message = "";  
-    var myreg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;         
-    if(email == ''){  
-        message = "邮箱不能为空！";  
-    }else if(!myreg.test(email)){  
-        message = "邮箱格式不正确！";  
-    }else{  
-      message = "OK";  
-    }
-    return message
-}
 function getHttpObj() {  
     var httpobj = null;  
     try {  
@@ -201,15 +189,6 @@ $(document).ready(function(){
             $('#authcode').focus();
             return false;
         }
-        //校验:邮箱
-        var email=$.trim($('#email').val());
-        var message = verifyEmail(email)
-        if(message != "OK") 
-        {
-            alert(message);
-            $('#email').focus();
-            return false;
-        }
         //校验:人脸图片
         if(target_face==null)
         {
@@ -270,7 +249,7 @@ $(document).ready(function(){
         jsonRequest["DDIP"]["Body"]["PhoneNumber"] = $.trim($('#phone').val());
         jsonRequest["DDIP"]["Body"]["AuthCode"] = $.trim($('#authcode').val());
         jsonRequest["DDIP"]["Body"]["Name"] = $.trim($('#name').val());
-        jsonRequest["DDIP"]["Body"]["Email"] = $.trim($('#email').val());
+        jsonRequest["DDIP"]["Body"]["Email"] = "deleted";
         jsonRequest["DDIP"]["Body"]["Other"] = $.trim($('#other').val());
 
         //
