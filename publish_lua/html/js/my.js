@@ -165,7 +165,7 @@ $(document).ready(function(){
                 $("#bt_send_authcode").removeAttr("disabled")
                 clearTimeout(timer);            //清除定时器  
                 time = 60;                      //设置循环重新开始条件  
-            }  
+            }
         }
         
     });
@@ -257,7 +257,8 @@ $(document).ready(function(){
                                     "AuthCode": "",
                                     "Picture":  "",
                                     "Name": "",
-                                    "Email": ""
+                                    "Email": "",
+                                    "Other": ""
                                 },
                                 "Header": {
                                     "CSeq": "1",
@@ -270,6 +271,7 @@ $(document).ready(function(){
         jsonRequest["DDIP"]["Body"]["AuthCode"] = $.trim($('#authcode').val());
         jsonRequest["DDIP"]["Body"]["Name"] = $.trim($('#name').val());
         jsonRequest["DDIP"]["Body"]["Email"] = $.trim($('#email').val());
+        jsonRequest["DDIP"]["Body"]["Other"] = $.trim($('#other').val());
 
         //
         var canvas = document.getElementById('face'); 

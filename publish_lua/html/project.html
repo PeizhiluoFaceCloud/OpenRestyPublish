@@ -50,8 +50,13 @@
         <label>人脸照片</label><span style="color:red">*</span>
         <canvas id="face" width="128" height="128" style="border:1px solid #d3d3d3;">
     </p>
-    <p>    
+    <p>
         <button id="bt_open_facedailog">选择照片</button>
+    </p>
+    <!--备注:先偷个懒-->
+    <p>
+        <label for="other">备注:{{ OtherInfo }}</label><br>
+        <textarea id="other" name="other" rows="3" cols="20">请在此处输入...</textarea> 
     </p>
     <!--可选项(根据配置信息自动产生)-->
     <p>

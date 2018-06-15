@@ -85,7 +85,7 @@ function process_msg()
 	end
     --获取项目信息
     local project_key = "project:"..project_name..":info"
-    local project_info, err = red_handler:hmget(project_key,"RegisterBegin","RegisterEnd")
+    local project_info, err = red_handler:hmget(project_key,"RegisterBegin","RegisterEnd","OtherInfo")
     if not project_info then
 	    ngx.log(ngx.ERR, "get project info failed : ", project_key,err,redis_ip)
         return send_resp_string("<p>get project info failed</p>")
@@ -93,13 +93,14 @@ function process_msg()
     local RegisterBegin = string2time(project_info[1])
     local RegisterEnd = string2time(project_info[2])
     if(os.time() < RegisterBegin) then
-        ngx.log(ngx.ERR, "check reigster begin time failed:",os.date("%Y-%m-%d %H:%M:%S"),project_info[2])
+        ngx.log(ngx.ERR, "check reigster begin time failed:",os.date("%Y-%m-%d %H:%M:%S"),project_info[1])
         return send_resp_string("<p>check reigster begin time failed</p>")
     end
     if(os.time() > RegisterEnd) then
-        ngx.log(ngx.ERR, "check reigster end time failed:",os.date("%Y-%m-%d %H:%M:%S"),project_info[3])
+        ngx.log(ngx.ERR, "check reigster end time failed:",os.date("%Y-%m-%d %H:%M:%S"),project_info[2])
         return send_resp_string("<p>check reigster end time failed</p>")
     end
+    local other_info = project_info[3]
     
     --把项目的背景图片从Redis中下载下来
     local project_bg_picture_index = "0"
@@ -131,7 +132,8 @@ function process_msg()
     local content = func({ProjectName=project_name,
                         RegistServerAddr=register_ip..":"..register_port,
                         SMSServerAddr=sms_ip..":"..sms_port,
-                        ProjectBgPicture=bg_picture_filename})
+                        ProjectBgPicture=bg_picture_filename,
+			OtherInfo=other_info})
     send_resp_string(content)
 	return
 end
